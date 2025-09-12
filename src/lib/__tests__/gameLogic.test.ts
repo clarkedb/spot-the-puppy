@@ -4,7 +4,7 @@ import {
   makeNewPosition,
   calcSpeed,
   sanitizeUserName,
-  getRandomGuestName
+  getRandomGuestName,
 } from '../gameLogic'
 
 describe('gameLogic', () => {
@@ -157,7 +157,15 @@ describe('gameLogic', () => {
     })
 
     it('should contain a valid guest name', () => {
-      const validNames = ['scooby', 'snoopy', 'snoop_dog', 'pluto', 'old_yeller', 'fido', 'clifford']
+      const validNames = [
+        'scooby',
+        'snoopy',
+        'snoop_dog',
+        'pluto',
+        'old_yeller',
+        'fido',
+        'clifford',
+      ]
       const name = getRandomGuestName()
       const baseName = name.split('#')[0]
       expect(validNames).toContain(baseName)

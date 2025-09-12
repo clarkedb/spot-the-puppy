@@ -7,32 +7,32 @@ describe('InMemoryDatastore', () => {
 
   beforeEach(async () => {
     // Reset high score to initial state
-    await datastore.updateHighScore(100, "R2-D2")
+    await datastore.updateHighScore(100, 'R2-D2')
     // Reset high level to initial state
-    await datastore.updateHighLevel(1, "Ferb")
+    await datastore.updateHighLevel(1, 'Ferb')
   })
 
   describe('High Score Management', () => {
     it('should return initial high score', async () => {
       const highScore = await datastore.getHighScore()
-      expect(highScore).toEqual({ score: 100, player: "R2-D2" })
+      expect(highScore).toEqual({ score: 100, player: 'R2-D2' })
     })
 
     it('should update high score when new score is higher', async () => {
-      const newScore = await datastore.updateHighScore(500, "TestPlayer")
-      expect(newScore).toEqual({ score: 500, player: "TestPlayer" })
+      const newScore = await datastore.updateHighScore(500, 'TestPlayer')
+      expect(newScore).toEqual({ score: 500, player: 'TestPlayer' })
 
       const retrievedScore = await datastore.getHighScore()
-      expect(retrievedScore).toEqual({ score: 500, player: "TestPlayer" })
+      expect(retrievedScore).toEqual({ score: 500, player: 'TestPlayer' })
     })
 
     it('should not update high score when new score is lower', async () => {
       // First set a high score
-      await datastore.updateHighScore(1000, "HighScorer")
+      await datastore.updateHighScore(1000, 'HighScorer')
 
       // Try to update with lower score
-      const result = await datastore.updateHighScore(500, "LowScorer")
-      expect(result).toEqual({ score: 1000, player: "HighScorer" })
+      const result = await datastore.updateHighScore(500, 'LowScorer')
+      expect(result).toEqual({ score: 1000, player: 'HighScorer' })
     })
 
     it('should return a copy, not the original object', async () => {
@@ -47,24 +47,24 @@ describe('InMemoryDatastore', () => {
   describe('High Level Management', () => {
     it('should return initial high level', async () => {
       const highLevel = await datastore.getHighLevel()
-      expect(highLevel).toEqual({ level: 1, player: "Ferb" })
+      expect(highLevel).toEqual({ level: 1, player: 'Ferb' })
     })
 
     it('should update high level when new level is higher', async () => {
-      const newLevel = await datastore.updateHighLevel(5, "TestPlayer")
-      expect(newLevel).toEqual({ level: 5, player: "TestPlayer" })
+      const newLevel = await datastore.updateHighLevel(5, 'TestPlayer')
+      expect(newLevel).toEqual({ level: 5, player: 'TestPlayer' })
 
       const retrievedLevel = await datastore.getHighLevel()
-      expect(retrievedLevel).toEqual({ level: 5, player: "TestPlayer" })
+      expect(retrievedLevel).toEqual({ level: 5, player: 'TestPlayer' })
     })
 
     it('should not update high level when new level is lower', async () => {
       // First set a high level
-      await datastore.updateHighLevel(10, "HighLeveler")
+      await datastore.updateHighLevel(10, 'HighLeveler')
 
       // Try to update with lower level
-      const result = await datastore.updateHighLevel(3, "LowLeveler")
-      expect(result).toEqual({ level: 10, player: "HighLeveler" })
+      const result = await datastore.updateHighLevel(3, 'LowLeveler')
+      expect(result).toEqual({ level: 10, player: 'HighLeveler' })
     })
 
     it('should return a copy, not the original object', async () => {
@@ -80,7 +80,9 @@ describe('InMemoryDatastore', () => {
     it('should return initial level scores', async () => {
       const scores = await datastore.getLevelScores(1)
       expect(scores).toHaveLength(5)
-      expect(scores.every(score => score.score === 100 && score.player === "Anonymous")).toBe(true)
+      expect(scores.every((score) => score.score === 100 && score.player === 'Anonymous')).toBe(
+        true,
+      )
     })
 
     it('should return empty array for invalid level', async () => {
@@ -89,17 +91,17 @@ describe('InMemoryDatastore', () => {
     })
 
     it('should update level scores correctly for new high score', async () => {
-      const updatedScores = await datastore.updateLevelScore(1, 500, "NewPlayer")
-      expect(updatedScores[0]).toEqual({ score: 500, player: "NewPlayer" })
-      expect(updatedScores[1]).toEqual({ score: 100, player: "Anonymous" })
+      const updatedScores = await datastore.updateLevelScore(1, 500, 'NewPlayer')
+      expect(updatedScores[0]).toEqual({ score: 500, player: 'NewPlayer' })
+      expect(updatedScores[1]).toEqual({ score: 100, player: 'Anonymous' })
     })
 
     it('should insert score at correct position', async () => {
       // Use a different level to avoid interference from other tests
       const level = 15
-      await datastore.updateLevelScore(level, 300, "Player1")
-      await datastore.updateLevelScore(level, 600, "Player2")
-      const scores = await datastore.updateLevelScore(level, 400, "Player3")
+      await datastore.updateLevelScore(level, 300, 'Player1')
+      await datastore.updateLevelScore(level, 600, 'Player2')
+      const scores = await datastore.updateLevelScore(level, 400, 'Player3')
 
       expect(scores[0].score).toBe(600)
       expect(scores[1].score).toBe(400)
@@ -125,11 +127,11 @@ describe('InMemoryDatastore', () => {
       }
 
       // Try to add a low score
-      const scores = await datastore.updateLevelScore(3, 50, "LowPlayer")
+      const scores = await datastore.updateLevelScore(3, 50, 'LowPlayer')
 
       // Should still have the original 5 high scores
-      expect(scores.every(score => score.score >= 1000)).toBe(true)
-      expect(scores.find(score => score.player === "LowPlayer")).toBeUndefined()
+      expect(scores.every((score) => score.score >= 1000)).toBe(true)
+      expect(scores.find((score) => score.player === 'LowPlayer')).toBeUndefined()
     })
 
     it('should return a copy of scores array', async () => {
@@ -144,22 +146,22 @@ describe('InMemoryDatastore', () => {
   describe('Champions Management', () => {
     it('should return initial champions', async () => {
       const champions = await datastore.getChampions()
-      expect(champions).toEqual([{ score: 5000, player: "Clark Brown" }])
+      expect(champions).toEqual([{ score: 5000, player: 'Clark Brown' }])
     })
 
     it('should add new champion', async () => {
-      const champions = await datastore.addChampion(7500, "NewChampion")
+      const champions = await datastore.addChampion(7500, 'NewChampion')
       expect(champions).toHaveLength(2)
-      expect(champions[1]).toEqual({ score: 7500, player: "NewChampion" })
+      expect(champions[1]).toEqual({ score: 7500, player: 'NewChampion' })
     })
 
     it('should add multiple champions', async () => {
-      await datastore.addChampion(6000, "Champion1")
-      const champions = await datastore.addChampion(8000, "Champion2")
+      await datastore.addChampion(6000, 'Champion1')
+      const champions = await datastore.addChampion(8000, 'Champion2')
 
       // Should contain initial champion plus the two new ones
       expect(champions.length).toBeGreaterThanOrEqual(3)
-      expect(champions[champions.length - 1]).toEqual({ score: 8000, player: "Champion2" })
+      expect(champions[champions.length - 1]).toEqual({ score: 8000, player: 'Champion2' })
     })
 
     it('should return a copy of champions array', async () => {
@@ -203,14 +205,14 @@ describe('InMemoryDatastore', () => {
 
   describe('Data Integrity', () => {
     it('should maintain separate score lists for different levels', async () => {
-      await datastore.updateLevelScore(1, 1000, "Level1Player")
-      await datastore.updateLevelScore(2, 2000, "Level2Player")
+      await datastore.updateLevelScore(1, 1000, 'Level1Player')
+      await datastore.updateLevelScore(2, 2000, 'Level2Player')
 
       const level1Scores = await datastore.getLevelScores(1)
       const level2Scores = await datastore.getLevelScores(2)
 
-      expect(level1Scores[0].player).toBe("Level1Player")
-      expect(level2Scores[0].player).toBe("Level2Player")
+      expect(level1Scores[0].player).toBe('Level1Player')
+      expect(level2Scores[0].player).toBe('Level2Player')
     })
 
     it('should handle concurrent operations safely', async () => {
@@ -218,9 +220,9 @@ describe('InMemoryDatastore', () => {
       const level = 19
       // Simulate concurrent score updates
       const promises = [
-        datastore.updateLevelScore(level, 500, "Player1"),
-        datastore.updateLevelScore(level, 600, "Player2"),
-        datastore.updateLevelScore(level, 400, "Player3")
+        datastore.updateLevelScore(level, 500, 'Player1'),
+        datastore.updateLevelScore(level, 600, 'Player2'),
+        datastore.updateLevelScore(level, 400, 'Player3'),
       ]
 
       const results = await Promise.all(promises)
@@ -230,8 +232,8 @@ describe('InMemoryDatastore', () => {
 
       // Final state should be consistent (check the final result has our scores)
       const finalScores = await datastore.getLevelScores(level)
-      const ourScores = finalScores.filter(score =>
-        ['Player1', 'Player2', 'Player3'].includes(score.player)
+      const ourScores = finalScores.filter((score) =>
+        ['Player1', 'Player2', 'Player3'].includes(score.player),
       )
       expect(ourScores.length).toBe(3)
     })

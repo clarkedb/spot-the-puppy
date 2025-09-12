@@ -1,27 +1,37 @@
-import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata, Viewport } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
+import './globals.css'
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+})
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
   title: {
-    default: "Spot the Puppy! - Fun Reaction Game",
-    template: "%s | Spot the Puppy!"
+    default: 'Spot the Puppy! - Fun Reaction Game',
+    template: '%s | Spot the Puppy!',
   },
-  description: "Test your reflexes in this fun game! Find and click the puppy while avoiding the kitties. Progress through 20 challenging levels.",
-  keywords: ["game", "reaction time", "puppy", "fun", "reflexes", "browser game", "free game", "spot the difference"],
-  authors: [{ name: "Spot the Puppy Team" }],
-  creator: "Spot the Puppy Team",
-  publisher: "Spot the Puppy Team",
+  description:
+    'Test your reflexes in this fun game! Find and click the puppy while avoiding the kitties. Progress through 20 challenging levels.',
+  keywords: [
+    'game',
+    'reaction time',
+    'puppy',
+    'fun',
+    'reflexes',
+    'browser game',
+    'free game',
+    'spot the difference',
+  ],
+  authors: [{ name: 'Spot the Puppy Team' }],
+  creator: 'Spot the Puppy Team',
+  publisher: 'Spot the Puppy Team',
   formatDetection: {
     email: false,
     address: false,
@@ -32,8 +42,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Spot the Puppy! - Fun Reaction Game",
-    description: "Test your reflexes in this fun game! Find and click the puppy while avoiding the kitties. Progress through 20 challenging levels.",
+    title: 'Spot the Puppy! - Fun Reaction Game',
+    description:
+      'Test your reflexes in this fun game! Find and click the puppy while avoiding the kitties. Progress through 20 challenging levels.',
     url: 'https://stp2.vercel.app',
     siteName: 'Spot the Puppy!',
     images: [
@@ -49,8 +60,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: "Spot the Puppy! - Fun Reaction Game",
-    description: "Test your reflexes in this fun game! Find and click the puppy while avoiding the kitties. Progress through 20 challenging levels.",
+    title: 'Spot the Puppy! - Fun Reaction Game',
+    description:
+      'Test your reflexes in this fun game! Find and click the puppy while avoiding the kitties. Progress through 20 challenging levels.',
     images: ['/sprites/puppy.png'],
   },
   robots: {
@@ -64,7 +76,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-};
+}
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -75,15 +87,11 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
     </html>
-  );
+  )
 }

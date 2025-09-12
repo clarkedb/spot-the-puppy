@@ -3,12 +3,12 @@ import '@testing-library/jest-dom'
 // Mock window.setTimeout and clearTimeout for testing
 Object.defineProperty(window, 'setTimeout', {
   writable: true,
-  value: global.setTimeout
+  value: global.setTimeout,
 })
 
 Object.defineProperty(window, 'clearTimeout', {
   writable: true,
-  value: global.clearTimeout
+  value: global.clearTimeout,
 })
 
 // Mock HTMLElement methods that aren't available in jsdom

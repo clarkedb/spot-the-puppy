@@ -2,35 +2,33 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="bg-black/50 backdrop-blur-sm text-white py-6">
+    <footer className="bg-black/50 py-6 text-white backdrop-blur-sm">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex flex-col md:flex-row items-center gap-4 mb-4 md:mb-0">
-            <p className="text-sm">
-              © 2025 Clark Brown. All rights reserved.
-            </p>
+        <div className="flex flex-col items-center justify-between md:flex-row">
+          <div className="mb-4 flex flex-col items-center gap-4 md:mb-0 md:flex-row">
+            <p className="text-sm">© 2025 Clark Brown. All rights reserved.</p>
             <div className="flex gap-4 text-sm">
               <Link
                 href="/"
-                className="text-slate-300 hover:text-slate-200 transition-colors duration-200"
+                className="text-slate-300 transition-colors duration-200 hover:text-slate-200"
               >
                 Home
               </Link>
               <Link
                 href="/play"
-                className="text-slate-300 hover:text-slate-200 transition-colors duration-200"
+                className="text-slate-300 transition-colors duration-200 hover:text-slate-200"
               >
                 Play
               </Link>
               <Link
                 href="/about"
-                className="text-slate-300 hover:text-slate-200 transition-colors duration-200"
+                className="text-slate-300 transition-colors duration-200 hover:text-slate-200"
               >
                 About
               </Link>
               <Link
                 href="/privacy"
-                className="text-slate-300 hover:text-slate-200 transition-colors duration-200"
+                className="text-slate-300 transition-colors duration-200 hover:text-slate-200"
               >
                 Privacy
               </Link>
@@ -40,10 +38,10 @@ export default function Footer() {
             href="https://github.com/clarkedb/spot-the-puppy"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-300 hover:text-slate-200 transition-colors duration-200 flex items-center gap-2"
+            className="flex items-center gap-2 text-slate-300 transition-colors duration-200 hover:text-slate-200"
           >
             <svg
-              className="w-5 h-5"
+              className="h-5 w-5"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -59,5 +57,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

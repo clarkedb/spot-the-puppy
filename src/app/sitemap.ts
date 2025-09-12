@@ -2,10 +2,12 @@ import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // Determine the base URL dynamically
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ||
-                  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` :
-                  process.env.NODE_ENV === 'production' ? 'https://stp2.vercel.app' :
-                  'http://localhost:3000'
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NODE_ENV === 'production'
+        ? 'https://stp2.vercel.app'
+        : 'http://localhost:3000'
 
   return [
     {
