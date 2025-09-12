@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint && prettier '**/*.{js,jsx,ts,tsx,json,css,md,yml}' --check",
+    "lint": "eslint && prettier '**/*.{js,jsx,mjs,ts,tsx,json,css,md,yml}' --check",
     "test": "vitest",
     "prepare": "husky",
     "test:run": "vitest run",
