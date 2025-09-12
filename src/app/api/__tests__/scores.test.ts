@@ -1,220 +1,244 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // Mock Next.js imports
-vi.mock('next/server', () => ({
+vi.mock("next/server", () => ({
   NextRequest: vi.fn(),
   NextResponse: {
     json: vi.fn().mockImplementation((data, init) => ({
       json: () => Promise.resolve(data),
       status: init?.status || 200,
-      ...init
-    }))
-  }
-}))
+      ...init,
+    })),
+  },
+}));
 
 // Mock the datastore
-vi.mock('@/lib/datastore', () => ({
+vi.mock("@/lib/datastore", () => ({
   datastore: {
     getLevelScores: vi.fn(),
     updateLevelScore: vi.fn(),
     getAllScores: vi.fn(),
     getChampions: vi.fn(),
-    addChampion: vi.fn()
-  }
-}))
+    addChampion: vi.fn(),
+  },
+}));
 
 // Import after mocking
-import { GET } from '../scores/route'
-import { NextResponse } from 'next/server'
-import { datastore } from '@/lib/datastore'
+import { GET } from "../scores/route";
+import { NextRequest, NextResponse } from "next/server";
+import { datastore } from "@/lib/datastore";
 
-describe('/api/scores', () => {
+describe("/api/scores", () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-  })
+    vi.clearAllMocks();
+  });
 
-  describe('GET - Level Scores', () => {
-    it('should return level scores for specific level', async () => {
+  describe("GET - Level Scores", () => {
+    it("should return level scores for specific level", async () => {
       const mockScores = [
-        { score: 1000, player: 'Player1' },
-        { score: 900, player: 'Player2' }
-      ]
-      vi.mocked(datastore.getLevelScores).mockResolvedValue(mockScores)
+        { score: 1000, player: "Player1" },
+        { score: 900, player: "Player2" },
+      ];
+      vi.mocked(datastore.getLevelScores).mockResolvedValue(mockScores);
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=1'
-      } as any
+        url: "http://localhost:3000/api/scores?level=1",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
-      expect(datastore.getLevelScores).toHaveBeenCalledWith(1)
-      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockScores })
-    })
+      expect(datastore.getLevelScores).toHaveBeenCalledWith(1);
+      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockScores });
+    });
 
-    it('should update level score when score and player provided', async () => {
+    it("should update level score when score and player provided", async () => {
       const mockUpdatedScores = [
-        { score: 1200, player: 'NewPlayer' },
-        { score: 1000, player: 'Player1' }
-      ]
-      vi.mocked(datastore.updateLevelScore).mockResolvedValue(mockUpdatedScores)
+        { score: 1200, player: "NewPlayer" },
+        { score: 1000, player: "Player1" },
+      ];
+      vi.mocked(datastore.updateLevelScore).mockResolvedValue(
+        mockUpdatedScores
+      );
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=1&score=1200&player=NewPlayer'
-      } as any
+        url: "http://localhost:3000/api/scores?level=1&score=1200&player=NewPlayer",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
-      expect(datastore.updateLevelScore).toHaveBeenCalledWith(1, 1200, 'NewPlayer')
-      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockUpdatedScores })
-    })
+      expect(datastore.updateLevelScore).toHaveBeenCalledWith(
+        1,
+        1200,
+        "NewPlayer"
+      );
+      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockUpdatedScores });
+    });
 
-    it('should default to level 1 when no level specified', async () => {
-      const mockScores = [{ score: 500, player: 'DefaultPlayer' }]
-      vi.mocked(datastore.getLevelScores).mockResolvedValue(mockScores)
+    it("should default to level 1 when no level specified", async () => {
+      const mockScores = [{ score: 500, player: "DefaultPlayer" }];
+      vi.mocked(datastore.getLevelScores).mockResolvedValue(mockScores);
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores'
-      } as any
+        url: "http://localhost:3000/api/scores",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
-      expect(datastore.getLevelScores).toHaveBeenCalledWith(1)
-      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockScores })
-    })
-  })
+      expect(datastore.getLevelScores).toHaveBeenCalledWith(1);
+      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockScores });
+    });
+  });
 
-  describe('GET - All Scores', () => {
-    it('should return all scores when level=all', async () => {
+  describe("GET - All Scores", () => {
+    it("should return all scores when level=all", async () => {
       const mockAllScores = new Map([
-        [1, [{ score: 1000, player: 'Player1' }]],
-        [2, [{ score: 900, player: 'Player2' }]]
-      ])
-      vi.mocked(datastore.getAllScores).mockResolvedValue(mockAllScores)
+        [1, [{ score: 1000, player: "Player1" }]],
+        [2, [{ score: 900, player: "Player2" }]],
+      ]);
+      vi.mocked(datastore.getAllScores).mockResolvedValue(mockAllScores);
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=all'
-      } as any
+        url: "http://localhost:3000/api/scores?level=all",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
-      expect(datastore.getAllScores).toHaveBeenCalledOnce()
+      expect(datastore.getAllScores).toHaveBeenCalledOnce();
       expect(NextResponse.json).toHaveBeenCalledWith({
-        1: [{ score: 1000, player: 'Player1' }],
-        2: [{ score: 900, player: 'Player2' }]
-      })
-    })
-  })
+        1: [{ score: 1000, player: "Player1" }],
+        2: [{ score: 900, player: "Player2" }],
+      });
+    });
+  });
 
-  describe('GET - Champions', () => {
-    it('should return champions when level=champs', async () => {
+  describe("GET - Champions", () => {
+    it("should return champions when level=champs", async () => {
       const mockChampions = [
-        { score: 5000, player: 'Champion1' },
-        { score: 4500, player: 'Champion2' }
-      ]
-      vi.mocked(datastore.getChampions).mockResolvedValue(mockChampions)
+        { score: 5000, player: "Champion1" },
+        { score: 4500, player: "Champion2" },
+      ];
+      vi.mocked(datastore.getChampions).mockResolvedValue(mockChampions);
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=champs'
-      } as any
+        url: "http://localhost:3000/api/scores?level=champs",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
-      expect(datastore.getChampions).toHaveBeenCalledOnce()
-      expect(NextResponse.json).toHaveBeenCalledWith(mockChampions)
-    })
+      expect(datastore.getChampions).toHaveBeenCalledOnce();
+      expect(NextResponse.json).toHaveBeenCalledWith(mockChampions);
+    });
 
-    it('should add champion when level=champs with score and player', async () => {
+    it("should add champion when level=champs with score and player", async () => {
       const mockUpdatedChampions = [
-        { score: 5000, player: 'OldChampion' },
-        { score: 6000, player: 'NewChampion' }
-      ]
-      vi.mocked(datastore.addChampion).mockResolvedValue(mockUpdatedChampions)
+        { score: 5000, player: "OldChampion" },
+        { score: 6000, player: "NewChampion" },
+      ];
+      vi.mocked(datastore.addChampion).mockResolvedValue(mockUpdatedChampions);
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=champs&score=6000&player=NewChampion'
-      } as any
+        url: "http://localhost:3000/api/scores?level=champs&score=6000&player=NewChampion",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
-      expect(datastore.addChampion).toHaveBeenCalledWith(6000, 'NewChampion')
-      expect(NextResponse.json).toHaveBeenCalledWith(mockUpdatedChampions)
-    })
-  })
+      expect(datastore.addChampion).toHaveBeenCalledWith(6000, "NewChampion");
+      expect(NextResponse.json).toHaveBeenCalledWith(mockUpdatedChampions);
+    });
+  });
 
-  describe('Error Handling', () => {
-    it('should handle invalid score parameter by passing NaN to datastore', async () => {
-      const mockScores = [{ score: NaN, player: 'TestPlayer' }]
-      vi.mocked(datastore.updateLevelScore).mockResolvedValue(mockScores)
+  describe("Error Handling", () => {
+    it("should handle invalid score parameter by passing NaN to datastore", async () => {
+      const mockScores = [{ score: NaN, player: "TestPlayer" }];
+      vi.mocked(datastore.updateLevelScore).mockResolvedValue(mockScores);
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=1&score=invalid&player=TestPlayer'
-      } as any
+        url: "http://localhost:3000/api/scores?level=1&score=invalid&player=TestPlayer",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
       // parseInt("invalid") returns NaN, which gets passed to the datastore
-      expect(datastore.updateLevelScore).toHaveBeenCalledWith(1, NaN, 'TestPlayer')
-      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockScores })
-    })
+      expect(datastore.updateLevelScore).toHaveBeenCalledWith(
+        1,
+        NaN,
+        "TestPlayer"
+      );
+      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockScores });
+    });
 
-    it('should handle datastore errors gracefully', async () => {
-      vi.mocked(datastore.getLevelScores).mockRejectedValue(new Error('Database error'))
+    it("should handle datastore errors gracefully", async () => {
+      vi.mocked(datastore.getLevelScores).mockRejectedValue(
+        new Error("Database error")
+      );
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=1'
-      } as any
+        url: "http://localhost:3000/api/scores?level=1",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
       expect(NextResponse.json).toHaveBeenCalledWith(
-        { error: 'Invalid request' },
+        { error: "Invalid request" },
         { status: 400 }
-      )
-    })
-  })
+      );
+    });
+  });
 
-  describe('Edge Cases', () => {
-    it('should handle URL encoding in player names', async () => {
-      const mockUpdatedScores = [{ score: 1000, player: 'Player One' }]
-      vi.mocked(datastore.updateLevelScore).mockResolvedValue(mockUpdatedScores)
-
-      const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=1&score=1000&player=Player%20One'
-      } as any
-
-      await GET(mockRequest)
-
-      expect(datastore.updateLevelScore).toHaveBeenCalledWith(1, 1000, 'Player One')
-      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockUpdatedScores })
-    })
-
-    it('should handle zero score', async () => {
-      const mockUpdatedScores = [{ score: 0, player: 'ZeroPlayer' }]
-      vi.mocked(datastore.updateLevelScore).mockResolvedValue(mockUpdatedScores)
+  describe("Edge Cases", () => {
+    it("should handle URL encoding in player names", async () => {
+      const mockUpdatedScores = [{ score: 1000, player: "Player One" }];
+      vi.mocked(datastore.updateLevelScore).mockResolvedValue(
+        mockUpdatedScores
+      );
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=1&score=0&player=ZeroPlayer'
-      } as any
+        url: "http://localhost:3000/api/scores?level=1&score=1000&player=Player%20One",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
-      expect(datastore.updateLevelScore).toHaveBeenCalledWith(1, 0, 'ZeroPlayer')
-      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockUpdatedScores })
-    })
+      expect(datastore.updateLevelScore).toHaveBeenCalledWith(
+        1,
+        1000,
+        "Player One"
+      );
+      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockUpdatedScores });
+    });
 
-    it('should handle missing parameters gracefully', async () => {
-      const mockScores = [{ score: 100, player: 'DefaultPlayer' }]
-      vi.mocked(datastore.getLevelScores).mockResolvedValue(mockScores)
+    it("should handle zero score", async () => {
+      const mockUpdatedScores = [{ score: 0, player: "ZeroPlayer" }];
+      vi.mocked(datastore.updateLevelScore).mockResolvedValue(
+        mockUpdatedScores
+      );
 
       const mockRequest = {
-        url: 'http://localhost:3000/api/scores?level=1&score=1000'
-      } as any
+        url: "http://localhost:3000/api/scores?level=1&score=0&player=ZeroPlayer",
+      } as NextRequest;
 
-      await GET(mockRequest)
+      await GET(mockRequest);
 
-      expect(datastore.getLevelScores).toHaveBeenCalledWith(1)
-      expect(datastore.updateLevelScore).not.toHaveBeenCalled()
-      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockScores })
-    })
-  })
-})
+      expect(datastore.updateLevelScore).toHaveBeenCalledWith(
+        1,
+        0,
+        "ZeroPlayer"
+      );
+      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockUpdatedScores });
+    });
+
+    it("should handle missing parameters gracefully", async () => {
+      const mockScores = [{ score: 100, player: "DefaultPlayer" }];
+      vi.mocked(datastore.getLevelScores).mockResolvedValue(mockScores);
+
+      const mockRequest = {
+        url: "http://localhost:3000/api/scores?level=1&score=1000",
+      } as NextRequest;
+
+      await GET(mockRequest);
+
+      expect(datastore.getLevelScores).toHaveBeenCalledWith(1);
+      expect(datastore.updateLevelScore).not.toHaveBeenCalled();
+      expect(NextResponse.json).toHaveBeenCalledWith({ 1: mockScores });
+    });
+  });
+});

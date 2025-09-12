@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import Footer from '@/components/Footer'
+import Link from "next/link";
+import Footer from "@/components/Footer";
 
 export default function Privacy() {
   return (
@@ -26,18 +26,24 @@ export default function Privacy() {
                   Game Data Only
                 </h3>
                 <p className="text-slate-700 dark:text-slate-300 mb-4">
-                  Spot the Puppy collects only the minimal data necessary to provide you with
-                  a great gaming experience:
+                  Spot the Puppy collects only the minimal data necessary to
+                  provide you with a great gaming experience:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-slate-700 dark:text-slate-300 ml-4">
-                  <li><strong>Game scores:</strong> Your high scores to display on leaderboards</li>
-                  <li><strong>Player names:</strong> Optional display names you choose for the leaderboard</li>
+                  <li>
+                    <strong>Game scores:</strong> Your high scores to display on
+                    leaderboards
+                  </li>
+                  <li>
+                    <strong>Player names:</strong> Optional display names you
+                    choose for the leaderboard
+                  </li>
                 </ul>
               </div>
 
               <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
                 <h4 className="font-semibold text-green-800 dark:text-green-300 mb-2">
-                  What We Don't Track
+                  What We Don&apos;t Track
                 </h4>
                 <ul className="text-green-700 dark:text-green-300 space-y-1">
                   <li>• No personal information</li>
@@ -58,7 +64,8 @@ export default function Privacy() {
 
             <div className="space-y-4 text-slate-700 dark:text-slate-300">
               <p>
-                The limited data we collect is used solely to enhance your gaming experience:
+                The limited data we collect is used solely to enhance your
+                gaming experience:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Display your personal best scores</li>
@@ -67,7 +74,8 @@ export default function Privacy() {
               </ul>
 
               <p className="font-medium text-slate-900 dark:text-white">
-                Your data is never sold, shared with third parties, or used for marketing purposes.
+                Your data is never sold, shared with third parties, or used for
+                marketing purposes.
               </p>
             </div>
           </div>
@@ -79,13 +87,14 @@ export default function Privacy() {
 
             <div className="space-y-4 text-slate-700 dark:text-slate-300">
               <p>
-                Game scores and player names are stored securely and temporarily. We implement
-                reasonable security measures to protect this minimal data from unauthorized access.
+                Game scores and player names are stored securely and
+                temporarily. We implement reasonable security measures to
+                protect this minimal data from unauthorized access.
               </p>
 
               <p>
-                Since we only collect game-related data and no personal information, your privacy
-                risk is minimal.
+                Since we only collect game-related data and no personal
+                information, your privacy risk is minimal.
               </p>
             </div>
           </div>
@@ -98,8 +107,12 @@ export default function Privacy() {
             <div className="space-y-4 text-slate-700 dark:text-slate-300">
               <p>You have the right to:</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>Play the game without providing any personal information</li>
-                <li>Use any display name or remain anonymous on leaderboards</li>
+                <li>
+                  Play the game without providing any personal information
+                </li>
+                <li>
+                  Use any display name or remain anonymous on leaderboards
+                </li>
                 <li>Contact us if you have questions about your data</li>
               </ul>
             </div>
@@ -110,8 +123,9 @@ export default function Privacy() {
               Questions or Concerns?
             </h3>
             <p className="text-blue-800 dark:text-blue-300">
-              If you have any questions about this privacy policy or how we handle data,
-              please feel free to reach out through our GitHub repository.
+              If you have any questions about this privacy policy or how we
+              handle data, please feel free to reach out through our GitHub
+              repository.
             </p>
           </div>
 
@@ -131,11 +145,14 @@ export default function Privacy() {
           </div>
 
           <footer className="text-center mt-12 text-sm text-slate-500 dark:text-slate-400">
-            <p>This privacy policy was last updated on {new Date().toLocaleDateString()}.</p>
+            <p>
+              This privacy policy was last updated on{" "}
+              {new Date().toLocaleDateString()}.
+            </p>
           </footer>
         </div>
       </div>
       <Footer />
     </div>
-  )
+  );
 }
